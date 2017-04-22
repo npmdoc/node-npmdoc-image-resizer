@@ -1,0 +1,2250 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+    >image-resizer (v1.3.0)</a>
+</h1>
+<h4>On-the-fly image resizing and optimization using node and sharp (libvips). Heroku ready!</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer">module image-resizer</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.facebook">
+            function <span class="apidocSignatureSpan">image-resizer.</span>facebook
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.local">
+            function <span class="apidocSignatureSpan">image-resizer.</span>local
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.logger">
+            function <span class="apidocSignatureSpan">image-resizer.</span>logger
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.response">
+            function <span class="apidocSignatureSpan">image-resizer.</span>response
+            <span class="apidocSignatureSpan">(request, response)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.s3">
+            function <span class="apidocSignatureSpan">image-resizer.</span>s3
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.twitter">
+            function <span class="apidocSignatureSpan">image-resizer.</span>twitter
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.vimeo">
+            function <span class="apidocSignatureSpan">image-resizer.</span>vimeo
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.youtube">
+            function <span class="apidocSignatureSpan">image-resizer.</span>youtube
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>dimensions</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>facebook.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>local.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>logger.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>response.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>s3.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>string</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>twitter.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>vimeo.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.</span>youtube.prototype</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.dimensions">module image-resizer.dimensions</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.dimensions.cropFill">
+            function <span class="apidocSignatureSpan">image-resizer.dimensions.</span>cropFill
+            <span class="apidocSignatureSpan">(modifiers, size)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.dimensions.gravity">
+            function <span class="apidocSignatureSpan">image-resizer.dimensions.</span>gravity
+            <span class="apidocSignatureSpan">(g, width, height, cropWidth, cropHeight)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.dimensions.xy">
+            function <span class="apidocSignatureSpan">image-resizer.dimensions.</span>xy
+            <span class="apidocSignatureSpan">(modifiers, width, height, cropWidth, cropHeight)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.facebook">module image-resizer.facebook</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.facebook.facebook">
+            function <span class="apidocSignatureSpan">image-resizer.</span>facebook
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.facebook.super_">
+            function <span class="apidocSignatureSpan">image-resizer.facebook.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.facebook.prototype">module image-resizer.facebook.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.facebook.prototype._read">
+            function <span class="apidocSignatureSpan">image-resizer.facebook.prototype.</span>_read
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.local">module image-resizer.local</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.local.local">
+            function <span class="apidocSignatureSpan">image-resizer.</span>local
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.local.super_">
+            function <span class="apidocSignatureSpan">image-resizer.local.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.local.prototype">module image-resizer.local.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.local.prototype._read">
+            function <span class="apidocSignatureSpan">image-resizer.local.prototype.</span>_read
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.logger">module image-resizer.logger</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.logger.logger">
+            function <span class="apidocSignatureSpan">image-resizer.</span>logger
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.logger.prototype">module image-resizer.logger.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.logger.prototype.error">
+            function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>error
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.logger.prototype.flush">
+            function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>flush
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.logger.prototype.log">
+            function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>log
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.logger.prototype.time">
+            function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>time
+            <span class="apidocSignatureSpan">(key)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.logger.prototype.timeEnd">
+            function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>timeEnd
+            <span class="apidocSignatureSpan">(key)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>colors</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.response">module image-resizer.response</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.response.response">
+            function <span class="apidocSignatureSpan">image-resizer.</span>response
+            <span class="apidocSignatureSpan">(request, response)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.response.super_">
+            function <span class="apidocSignatureSpan">image-resizer.response.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.response.prototype">module image-resizer.response.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.response.prototype._write">
+            function <span class="apidocSignatureSpan">image-resizer.response.prototype.</span>_write
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.response.prototype.expiresIn">
+            function <span class="apidocSignatureSpan">image-resizer.response.prototype.</span>expiresIn
+            <span class="apidocSignatureSpan">(maxAge)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.response.prototype.shouldCacheResponse">
+            function <span class="apidocSignatureSpan">image-resizer.response.prototype.</span>shouldCacheResponse
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.s3">module image-resizer.s3</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.s3.s3">
+            function <span class="apidocSignatureSpan">image-resizer.</span>s3
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.s3.super_">
+            function <span class="apidocSignatureSpan">image-resizer.s3.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.s3.prototype">module image-resizer.s3.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.s3.prototype._read">
+            function <span class="apidocSignatureSpan">image-resizer.s3.prototype.</span>_read
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.string">module image-resizer.string</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.string.camelCase">
+            function <span class="apidocSignatureSpan">image-resizer.string.</span>camelCase
+            <span class="apidocSignatureSpan">(input)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.string.sanitize">
+            function <span class="apidocSignatureSpan">image-resizer.string.</span>sanitize
+            <span class="apidocSignatureSpan">(value, type)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.twitter">module image-resizer.twitter</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.twitter.twitter">
+            function <span class="apidocSignatureSpan">image-resizer.</span>twitter
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.twitter.super_">
+            function <span class="apidocSignatureSpan">image-resizer.twitter.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.twitter.prototype">module image-resizer.twitter.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.twitter.prototype._read">
+            function <span class="apidocSignatureSpan">image-resizer.twitter.prototype.</span>_read
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.vimeo">module image-resizer.vimeo</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.vimeo.vimeo">
+            function <span class="apidocSignatureSpan">image-resizer.</span>vimeo
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.vimeo.super_">
+            function <span class="apidocSignatureSpan">image-resizer.vimeo.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.vimeo.prototype">module image-resizer.vimeo.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.vimeo.prototype._read">
+            function <span class="apidocSignatureSpan">image-resizer.vimeo.prototype.</span>_read
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.youtube">module image-resizer.youtube</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.youtube.youtube">
+            function <span class="apidocSignatureSpan">image-resizer.</span>youtube
+            <span class="apidocSignatureSpan">(image)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.youtube.super_">
+            function <span class="apidocSignatureSpan">image-resizer.youtube.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.image-resizer.youtube.prototype">module image-resizer.youtube.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.image-resizer.youtube.prototype._read">
+            function <span class="apidocSignatureSpan">image-resizer.youtube.prototype.</span>_read
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer" id="apidoc.module.image-resizer">module image-resizer</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.facebook" id="apidoc.element.image-resizer.facebook">
+        function <span class="apidocSignatureSpan">image-resizer.</span>facebook
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Facebook(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Facebook)){
+    return new Facebook(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.local" id="apidoc.element.image-resizer.local">
+        function <span class="apidocSignatureSpan">image-resizer.</span>local
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Local(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Local)){
+    return new Local(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.path = image.path.replace(/^elocal/i,&#x27;&#x27;);
+  this.filePath = env.LOCAL_FILE_PATH + &#x27;/&#x27; + this.path;
+  this.ended = false;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.logger" id="apidoc.element.image-resizer.logger">
+        function <span class="apidocSignatureSpan">image-resizer.</span>logger
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Logger(){
+  this.queue = [];
+  this.times = {};
+  this.queueLog = queueLog;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.response" id="apidoc.element.image-resizer.response">
+        function <span class="apidocSignatureSpan">image-resizer.</span>response
+        <span class="apidocSignatureSpan">(request, response)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function ResponseWriter(request, response){
+  if (!(this instanceof ResponseWriter)){
+    return new ResponseWriter(request, response);
+  }
+
+  this.request = request;
+  this.response = response;
+
+  stream.Writable.call(this, { objectMode : true });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  var image = new Img(request);
+
+  var stream = image.getFile().pipe(new streams.identify());
+  stream = stream.pipe(new streams.resize());
+  stream = stream.pipe(new streams.filter());
+  stream = stream.pipe(new streams.optimize());
+
+  stream.pipe(streams.<span class="apidocCodeKeywordSpan">response</span>(request, response));
+});
+
+
+/**
+Start the app on the listed port
+*/
+app.listen(app.get(&#x27;port&#x27;));
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.s3" id="apidoc.element.image-resizer.s3">
+        function <span class="apidocSignatureSpan">image-resizer.</span>s3
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function s3Stream(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof s3Stream)){
+    return new s3Stream(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.twitter" id="apidoc.element.image-resizer.twitter">
+        function <span class="apidocSignatureSpan">image-resizer.</span>twitter
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Twitter(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Twitter)){
+    return new Twitter(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.vimeo" id="apidoc.element.image-resizer.vimeo">
+        function <span class="apidocSignatureSpan">image-resizer.</span>vimeo
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Vimeo(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Vimeo)){
+    return new Vimeo(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.youtube" id="apidoc.element.image-resizer.youtube">
+        function <span class="apidocSignatureSpan">image-resizer.</span>youtube
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Youtube(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Youtube)){
+    return new Youtube(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.dimensions" id="apidoc.module.image-resizer.dimensions">module image-resizer.dimensions</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.dimensions.cropFill" id="apidoc.element.image-resizer.dimensions.cropFill">
+        function <span class="apidocSignatureSpan">image-resizer.dimensions.</span>cropFill
+        <span class="apidocSignatureSpan">(modifiers, size)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">cropFill = function (modifiers, size){
+  var wd, ht,
+      newWd, newHt,
+      cropWidth, cropHeight,
+      crop;
+
+  if (modifiers.width === null){
+    modifiers.width = modifiers.height;
+  }
+  if (modifiers.height === null){
+    modifiers.height = modifiers.width;
+  }
+
+  if (modifiers.width &#x3e; size.width &#x26;&#x26; modifiers.height &#x3c;= size.height) {
+    cropWidth = size.width;
+    cropHeight = modifiers.height;
+  } else if (modifiers.width &#x3c;= size.width &#x26;&#x26; modifiers.height &#x3e; size.height) {
+    cropWidth = modifiers.width;
+    cropHeight = size.height;
+  } else if (modifiers.width &#x3e; size.width &#x26;&#x26; modifiers.height &#x3e; size.height) {
+    cropWidth = size.width;
+    cropHeight = size.height;
+  } else {
+    cropWidth = modifiers.width;
+    cropHeight = modifiers.height;
+  }
+
+  wd = newWd = cropWidth;
+  ht = newHt = Math.round(newWd*(size.height/size.width));
+
+  if(newHt &#x3c; cropHeight) {
+    ht = newHt = cropHeight;
+    wd = newWd = Math.round(newHt*(size.width/size.height));
+  }
+
+  // get the crop X/Y as defined by the gravity or x/y modifiers
+  crop = xy(modifiers, newWd, newHt, cropWidth, cropHeight);
+
+  return {
+    resize: {
+      width: wd,
+      height: ht
+    },
+    crop: {
+      width: cropWidth,
+      height: cropHeight,
+      x: crop.x,
+      y: crop.y
+    }
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.dimensions.gravity" id="apidoc.element.image-resizer.dimensions.gravity">
+        function <span class="apidocSignatureSpan">image-resizer.dimensions.</span>gravity
+        <span class="apidocSignatureSpan">(g, width, height, cropWidth, cropHeight)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function gravity(g, width, height, cropWidth, cropHeight){
+  var x, y;
+
+  // set the default x/y, same as gravity &#x27;c&#x27; for center
+  x = width/2 - cropWidth/2;
+  y = height/2 - cropHeight/2;
+
+  switch(g){
+  case &#x27;n&#x27;:
+    y = 0;
+    break;
+  case &#x27;ne&#x27;:
+    x = width - cropWidth;
+    y = 0;
+    break;
+  case &#x27;nw&#x27;:
+    x = 0;
+    y = 0;
+    break;
+  case &#x27;s&#x27;:
+    y = height - cropHeight;
+    break;
+  case &#x27;se&#x27;:
+    x = width - cropWidth;
+    y = height - cropHeight;
+    break;
+  case &#x27;sw&#x27;:
+    x = 0;
+    y = height - cropHeight;
+    break;
+  case &#x27;e&#x27;:
+    x = width - cropWidth;
+    break;
+  case &#x27;w&#x27;:
+    x = 0;
+    break;
+  }
+
+  // make sure we do not return numbers less than zero
+  if (x &#x3c; 0){ x = 0; }
+  if (y &#x3c; 0){ y = 0; }
+
+  return {
+    x: Math.floor(x),
+    y: Math.floor(y)
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.dimensions.xy" id="apidoc.element.image-resizer.dimensions.xy">
+        function <span class="apidocSignatureSpan">image-resizer.dimensions.</span>xy
+        <span class="apidocSignatureSpan">(modifiers, width, height, cropWidth, cropHeight)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function xy(modifiers, width, height, cropWidth, cropHeight){
+  var x,y, dims;
+
+  dims = gravity(modifiers.gravity, width, height, cropWidth, cropHeight);
+
+  if (_.has(modifiers, &#x27;x&#x27;)){
+    x = modifiers.x;
+    if (x &#x3c;= width - cropWidth){
+      dims.x = modifiers.x;
+    }else{
+      // don&#x27;t ignore modifier dimension
+      // instead, place within bounds
+      dims.x = width - cropWidth;
+    }
+  }
+
+  if (_.has(modifiers, &#x27;y&#x27;)){
+    y = modifiers.y;
+    if (y &#x3c;= height - cropHeight){
+      dims.y = modifiers.y;
+    }else{
+      // don&#x27;t ignore modifier dimension
+      // instead, place within bounds
+      dims.y = height - cropHeight;
+    }
+  }
+
+  return dims;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.facebook" id="apidoc.module.image-resizer.facebook">module image-resizer.facebook</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.facebook.facebook" id="apidoc.element.image-resizer.facebook.facebook">
+        function <span class="apidocSignatureSpan">image-resizer.</span>facebook
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Facebook(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Facebook)){
+    return new Facebook(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.facebook.super_" id="apidoc.element.image-resizer.facebook.super_">
+        function <span class="apidocSignatureSpan">image-resizer.facebook.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Readable(options) {
+  if (!(this instanceof Readable))
+    return new Readable(options);
+
+  this._readableState = new ReadableState(options, this);
+
+  // legacy
+  this.readable = true;
+
+  if (options &#x26;&#x26; typeof options.read === &#x27;function&#x27;)
+    this._read = options.read;
+
+  Stream.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.facebook.prototype" id="apidoc.module.image-resizer.facebook.prototype">module image-resizer.facebook.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.facebook.prototype._read" id="apidoc.element.image-resizer.facebook.prototype._read">
+        function <span class="apidocSignatureSpan">image-resizer.facebook.prototype.</span>_read
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_read = function (){
+  var _this = this,
+      url;
+
+  if ( this.ended ){ return; }
+
+  // pass through if there is an error on the image object
+  if (this.image.isError()){
+    this.ended = true;
+    this.push(this.image);
+    return this.push(null);
+  }
+
+  var fbUid = this.image.image.split(&#x27;.&#x27;).slice(0,-1).join(&#x27;.&#x27;);
+
+  url = &#x27;https://graph.facebook.com/&#x27; + fbUid + &#x27;/picture?type=large&#x27;;
+
+  this.image.log.time(&#x27;facebook&#x27;);
+
+  var opts = {
+    url: url,
+    encoding: null
+  };
+
+  request(opts, function (err, response, body) {
+    _this.image.log.timeEnd(&#x27;facebook&#x27;);
+
+    if (err) {
+      _this.image.error = err;
+    }
+    else {
+      if (response.statusCode === 200) {
+        _this.image.contents = body;
+        _this.image.originalContentLength = body.length;
+        _this.ended = true;
+      }
+      else {
+        _this.image.error = new Error(&#x27;Facebook user image not found&#x27;);
+        _this.image.error.statusCode = 404;
+      }
+    }
+
+    _this.push(_this.image);
+    _this.push(null);
+  });
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.local" id="apidoc.module.image-resizer.local">module image-resizer.local</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.local.local" id="apidoc.element.image-resizer.local.local">
+        function <span class="apidocSignatureSpan">image-resizer.</span>local
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Local(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Local)){
+    return new Local(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.path = image.path.replace(/^elocal/i,&#x27;&#x27;);
+  this.filePath = env.LOCAL_FILE_PATH + &#x27;/&#x27; + this.path;
+  this.ended = false;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.local.super_" id="apidoc.element.image-resizer.local.super_">
+        function <span class="apidocSignatureSpan">image-resizer.local.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Readable(options) {
+  if (!(this instanceof Readable))
+    return new Readable(options);
+
+  this._readableState = new ReadableState(options, this);
+
+  // legacy
+  this.readable = true;
+
+  if (options &#x26;&#x26; typeof options.read === &#x27;function&#x27;)
+    this._read = options.read;
+
+  Stream.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.local.prototype" id="apidoc.module.image-resizer.local.prototype">module image-resizer.local.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.local.prototype._read" id="apidoc.element.image-resizer.local.prototype._read">
+        function <span class="apidocSignatureSpan">image-resizer.local.prototype.</span>_read
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_read = function (){
+  var _this = this;
+
+  if ( this.ended ){ return; }
+
+  // pass through if there is an error on the image object
+  if (this.image.isError()){
+    this.ended = true;
+    this.push(this.image);
+    return this.push(null);
+  }
+
+  this.image.log.time(&#x27;local filesystem&#x27;);
+
+  fs.readFile(this.filePath, function(err, data){
+    _this.image.log.timeEnd(&#x27;local filesystem&#x27;);
+
+    // if there is an error store it on the image object and pass it along
+    if (err) {
+      _this.image.error = err;
+
+      if (err.code === &#x27;ENOENT&#x27;) {
+        _this.image.error.statusCode = 404;
+      }
+    }
+
+    // if not store the image buffer
+    else {
+      _this.image.contents = data;
+      _this.image.originalContentLength = data.length;
+    }
+
+    _this.ended = true;
+    _this.push(_this.image);
+    _this.push(null);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.logger" id="apidoc.module.image-resizer.logger">module image-resizer.logger</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.logger.logger" id="apidoc.element.image-resizer.logger.logger">
+        function <span class="apidocSignatureSpan">image-resizer.</span>logger
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Logger(){
+  this.queue = [];
+  this.times = {};
+  this.queueLog = queueLog;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.logger.prototype" id="apidoc.module.image-resizer.logger.prototype">module image-resizer.logger.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.logger.prototype.error" id="apidoc.element.image-resizer.logger.prototype.error">
+        function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>error
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">error = function (){
+  args = slice.call(arguments);
+  if (this.queueLog){
+    this.queue.push({ method: &#x27;error&#x27;, args: args });
+  } else {
+    args.unshift(&#x27;[&#x27; + chalk.green(prefix) + &#x27;]&#x27;);
+    console.error.apply(console, args);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+streams = ir.streams,
+chalk = require(&#x27;chalk&#x27;),
+exec = require(&#x27;child_process&#x27;).exec;
+
+// check to see if vips is installed
+exec (&#x27;vips --version&#x27;, function (err, stdout, stderr) {
+  if (err || stderr) {
+console.<span class="apidocCodeKeywordSpan">error</span>(
+  chalk.red(&#x27;\nMissing dependency:&#x27;),
+  chalk.red.bold(&#x27;libvips&#x27;)
+);
+
+console.log(
+  chalk.cyan(&#x27;  to install vips on your system run:&#x27;),
+  chalk.bold(&#x27;./node_modules/sharp/preinstall.sh\n&#x27;)
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.logger.prototype.flush" id="apidoc.element.image-resizer.logger.prototype.flush">
+        function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>flush
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">flush = function (){
+  if (this.queue.length === 0){
+    return;
+  }
+
+  console.log(&#x27;&#x27;);
+  _.each(this.queue, function(item){
+    var log = &#x27;&#x27;;
+    log += &#x27;[&#x27; + chalk.green(prefix) + &#x27;] &#x27;;
+    switch(item.method){
+    case &#x27;log&#x27;:
+      _.each(item.args, function(arg){
+        log += arg.toString() + &#x27; &#x27;;
+      });
+      break;
+    case &#x27;error&#x27;:
+      _.each(item.args, function(arg){
+        log += chalk.red(arg.toString()) + &#x27; &#x27;;
+      });
+      break;
+    case &#x27;time&#x27;:
+      log += chalk.cyan(
+        item.key + &#x27; - &#x27; + chalk.bold(item.time.toString()) + &#x27;ms&#x27;
+      );
+      break;
+    }
+    console.log(log);
+  });
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  return true;
+};
+
+
+ResponseWriter.prototype._write = function(image){
+  if (image.isError()){
+image.log.error(image.error.message);
+image.log.<span class="apidocCodeKeywordSpan">flush</span>();
+var statusCode = image.error.statusCode || 500;
+
+if (statusCode === 404 &#x26;&#x26; env.IMAGE_404) {
+  this.response.status(404);
+  fs.createReadStream(env.IMAGE_404).pipe(this.response);
+}
+else {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.logger.prototype.log" id="apidoc.element.image-resizer.logger.prototype.log">
+        function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>log
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">log = function (){
+  args = slice.call(arguments);
+  if (this.queueLog){
+    this.queue.push({ method: &#x27;log&#x27;,  args: args });
+  } else {
+    args.unshift(&#x27;[&#x27; + chalk.green(prefix) + &#x27;]&#x27;);
+    console.log.apply(console, args);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+exec (&#x27;vips --version&#x27;, function (err, stdout, stderr) {
+  if (err || stderr) {
+    console.error(
+      chalk.red(&#x27;\nMissing dependency:&#x27;),
+      chalk.red.bold(&#x27;libvips&#x27;)
+    );
+
+    console.<span class="apidocCodeKeywordSpan">log</span>(
+      chalk.cyan(&#x27;  to install vips on your system run:&#x27;),
+      chalk.bold(&#x27;./node_modules/sharp/preinstall.sh\n&#x27;)
+    );
+  }
+});
+
+app.directory = __dirname;
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.logger.prototype.time" id="apidoc.element.image-resizer.logger.prototype.time">
+        function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>time
+        <span class="apidocSignatureSpan">(key)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">time = function (key){
+  if (this.queueLog){
+    this.times[key] = Date.now();
+  } else {
+    key = &#x27;[&#x27; + chalk.green(prefix) + &#x27;] &#x27; + chalk.cyan(key);
+    console.time.call(console, key);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  return this.push(null);
+}
+
+var fbUid = this.image.image.split(&#x27;.&#x27;).slice(0,-1).join(&#x27;.&#x27;);
+
+url = &#x27;https://graph.facebook.com/&#x27; + fbUid + &#x27;/picture?type=large&#x27;;
+
+this.image.log.<span class="apidocCodeKeywordSpan">time</span>(&#x27;facebook&#x27;);
+
+var opts = {
+  url: url,
+  encoding: null
+};
+
+request(opts, function (err, response, body) {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.logger.prototype.timeEnd" id="apidoc.element.image-resizer.logger.prototype.timeEnd">
+        function <span class="apidocSignatureSpan">image-resizer.logger.prototype.</span>timeEnd
+        <span class="apidocSignatureSpan">(key)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">timeEnd = function (key){
+  if (this.queueLog){
+    var time = Date.now() - this.times[key];
+    this.queue.push({ method: &#x27;time&#x27;, key: key, time: time });
+  } else {
+    key = &#x27;[&#x27; + chalk.green(prefix) + &#x27;] &#x27; + chalk.cyan(key);
+    console.timeEnd.call(console, key);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+  var opts = {
+url: url,
+encoding: null
+  };
+
+  request(opts, function (err, response, body) {
+_this.image.log.<span class="apidocCodeKeywordSpan">timeEnd</span>(&#x27;facebook&#x27;);
+
+if (err) {
+  _this.image.error = err;
+}
+else {
+  if (response.statusCode === 200) {
+    _this.image.contents = body;
+...</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.response" id="apidoc.module.image-resizer.response">module image-resizer.response</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.response.response" id="apidoc.element.image-resizer.response.response">
+        function <span class="apidocSignatureSpan">image-resizer.</span>response
+        <span class="apidocSignatureSpan">(request, response)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function ResponseWriter(request, response){
+  if (!(this instanceof ResponseWriter)){
+    return new ResponseWriter(request, response);
+  }
+
+  this.request = request;
+  this.response = response;
+
+  stream.Writable.call(this, { objectMode : true });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  var image = new Img(request);
+
+  var stream = image.getFile().pipe(new streams.identify());
+  stream = stream.pipe(new streams.resize());
+  stream = stream.pipe(new streams.filter());
+  stream = stream.pipe(new streams.optimize());
+
+  stream.pipe(streams.<span class="apidocCodeKeywordSpan">response</span>(request, response));
+});
+
+
+/**
+Start the app on the listed port
+*/
+app.listen(app.get(&#x27;port&#x27;));
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.response.super_" id="apidoc.element.image-resizer.response.super_">
+        function <span class="apidocSignatureSpan">image-resizer.response.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Writable(options) {
+  // Writable ctor is applied to Duplexes, too.
+  // `realHasInstance` is necessary because using plain `instanceof`
+  // would return false, as no `_writableState` property is attached.
+
+  // Trying to use the custom `instanceof` for Writable here will also break the
+  // Node.js LazyTransform implementation, which has a non-trivial getter for
+  // `_writableState` that would lead to infinite recursion.
+  if (!(realHasInstance.call(Writable, this)) &#x26;&#x26;
+      !(this instanceof Stream.Duplex)) {
+    return new Writable(options);
+  }
+
+  this._writableState = new WritableState(options, this);
+
+  // legacy.
+  this.writable = true;
+
+  if (options) {
+    if (typeof options.write === &#x27;function&#x27;)
+      this._write = options.write;
+
+    if (typeof options.writev === &#x27;function&#x27;)
+      this._writev = options.writev;
+  }
+
+  Stream.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.response.prototype" id="apidoc.module.image-resizer.response.prototype">module image-resizer.response.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.response.prototype._write" id="apidoc.element.image-resizer.response.prototype._write">
+        function <span class="apidocSignatureSpan">image-resizer.response.prototype.</span>_write
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_write = function (image){
+  if (image.isError()){
+    image.log.error(image.error.message);
+    image.log.flush();
+    var statusCode = image.error.statusCode || 500;
+
+    if (statusCode === 404 &#x26;&#x26; env.IMAGE_404) {
+      this.response.status(404);
+      fs.createReadStream(env.IMAGE_404).pipe(this.response);
+    }
+    else {
+      this.response.status(statusCode).end();
+    }
+
+    return;
+  }
+
+  if (image.modifiers.action === &#x27;json&#x27;){
+    if (this.shouldCacheResponse()){
+      this.response.set({
+        &#x27;Cache-Control&#x27;:  &#x27;public&#x27;,
+        &#x27;Expires&#x27;:        this.expiresIn(env.JSON_EXPIRY),
+        &#x27;Last-Modified&#x27;:  (new Date(1000)).toGMTString(),
+        &#x27;Vary&#x27;:           &#x27;Accept-Encoding&#x27;
+      });
+    }
+
+    this.response.status(200).json(image.contents);
+    image.log.flush();
+
+    return this.end();
+  }
+
+  if (this.shouldCacheResponse()){
+    this.response.set({
+      &#x27;Cache-Control&#x27;:  &#x27;public&#x27;,
+      &#x27;Expires&#x27;:        this.expiresIn(image.expiry),
+      &#x27;Last-Modified&#x27;:  (new Date(1000)).toGMTString(),
+      &#x27;Vary&#x27;:           &#x27;Accept-Encoding&#x27;
+    });
+  }
+
+  this.response.type(image.format);
+
+  if (image.isStream()){
+    image.contents.pipe(this.response);
+  }
+
+  else {
+    image.log.log(
+      &#x27;original image size:&#x27;,
+      image.log.colors.grey(
+        (image.originalContentLength/1000).toString() + &#x27;kb&#x27;
+      )
+    );
+    image.log.log(
+      &#x27;size saving:&#x27;,
+      image.log.colors.grey(image.sizeSaving() + &#x27;%&#x27;)
+    );
+
+    // as a debugging step print a checksum for the modified image, so we can
+    // track to see if the image is replicated effectively between requests
+    if (env.development){
+      var crypto = require(&#x27;crypto&#x27;),
+          shasum = crypto.createHash(&#x27;sha1&#x27;);
+      shasum.update(image.contents);
+      image.log.log(&#x27;checksum&#x27;, shasum.digest(&#x27;hex&#x27;));
+    }
+
+    this.response.status(200).send(image.contents);
+  }
+
+  // flush the log messages and close the connection
+  image.log.flush();
+  this.end();
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.response.prototype.expiresIn" id="apidoc.element.image-resizer.response.prototype.expiresIn">
+        function <span class="apidocSignatureSpan">image-resizer.response.prototype.</span>expiresIn
+        <span class="apidocSignatureSpan">(maxAge)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">expiresIn = function (maxAge){
+  var dt = Date.now();
+  dt += maxAge * 1000;
+
+  return (new Date(dt)).toGMTString();
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+return;
+  }
+
+  if (image.modifiers.action === &#x27;json&#x27;){
+if (this.shouldCacheResponse()){
+  this.response.set({
+    &#x27;Cache-Control&#x27;:  &#x27;public&#x27;,
+    &#x27;Expires&#x27;:        this.<span class="apidocCodeKeywordSpan">expiresIn</span>(env.JSON_EXPIRY),
+    &#x27;Last-Modified&#x27;:  (new Date(1000)).toGMTString(),
+    &#x27;Vary&#x27;:           &#x27;Accept-Encoding&#x27;
+  });
+}
+
+this.response.status(200).json(image.contents);
+image.log.flush();
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.response.prototype.shouldCacheResponse" id="apidoc.element.image-resizer.response.prototype.shouldCacheResponse">
+        function <span class="apidocSignatureSpan">image-resizer.response.prototype.</span>shouldCacheResponse
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">shouldCacheResponse = function (){
+  if (env.development){
+    if (env.CACHE_DEV_REQUESTS){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  return true;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    this.response.status(statusCode).end();
+  }
+
+  return;
+}
+
+if (image.modifiers.action === &#x27;json&#x27;){
+  if (this.<span class="apidocCodeKeywordSpan">shouldCacheResponse</span>()){
+    this.response.set({
+      &#x27;Cache-Control&#x27;:  &#x27;public&#x27;,
+      &#x27;Expires&#x27;:        this.expiresIn(env.JSON_EXPIRY),
+      &#x27;Last-Modified&#x27;:  (new Date(1000)).toGMTString(),
+      &#x27;Vary&#x27;:           &#x27;Accept-Encoding&#x27;
+    });
+  }
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.s3" id="apidoc.module.image-resizer.s3">module image-resizer.s3</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.s3.s3" id="apidoc.element.image-resizer.s3.s3">
+        function <span class="apidocSignatureSpan">image-resizer.</span>s3
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function s3Stream(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof s3Stream)){
+    return new s3Stream(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.s3.super_" id="apidoc.element.image-resizer.s3.super_">
+        function <span class="apidocSignatureSpan">image-resizer.s3.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Readable(options) {
+  if (!(this instanceof Readable))
+    return new Readable(options);
+
+  this._readableState = new ReadableState(options, this);
+
+  // legacy
+  this.readable = true;
+
+  if (options &#x26;&#x26; typeof options.read === &#x27;function&#x27;)
+    this._read = options.read;
+
+  Stream.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.s3.prototype" id="apidoc.module.image-resizer.s3.prototype">module image-resizer.s3.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.s3.prototype._read" id="apidoc.element.image-resizer.s3.prototype._read">
+        function <span class="apidocSignatureSpan">image-resizer.s3.prototype.</span>_read
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_read = function (){
+  var _this = this;
+
+  if ( this.ended ){ return; }
+
+  // pass through if there is an error on the image object
+  if (this.image.isError()){
+    this.ended = true;
+    this.push(this.image);
+    return this.push(null);
+  }
+
+  // Set the AWS options
+  var awsOptions = {
+    Bucket: bucket,
+    Key: this.image.path.replace(/^\//,&#x27;&#x27;)
+  };
+
+  this.image.log.time(&#x27;s3&#x27;);
+
+  client.getObject(awsOptions, function(err, data){
+    _this.image.log.timeEnd(&#x27;s3&#x27;);
+
+    // if there is an error store it on the image object and pass it along
+    if (err) {
+      _this.image.error = err;
+    }
+
+    // if not store the image buffer
+    else {
+      _this.image.contents = data.Body;
+      _this.image.originalContentLength = data.Body.length;
+    }
+
+    _this.ended = true;
+    _this.push(_this.image);
+    _this.push(null);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.string" id="apidoc.module.image-resizer.string">module image-resizer.string</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.string.camelCase" id="apidoc.element.image-resizer.string.camelCase">
+        function <span class="apidocSignatureSpan">image-resizer.string.</span>camelCase
+        <span class="apidocSignatureSpan">(input)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">camelCase = function (input){
+  return input.toLowerCase()
+    .replace(/_(.)/g, function(match, letter){
+      return letter.toUpperCase();
+    });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.string.sanitize" id="apidoc.element.image-resizer.string.sanitize">
+        function <span class="apidocSignatureSpan">image-resizer.string.</span>sanitize
+        <span class="apidocSignatureSpan">(value, type)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">sanitize = function (value, type) {
+  if (typeof type === &#x27;undefined&#x27;) {
+    type = &#x27;number&#x27;;
+  }
+  switch (type) {
+  case &#x27;number&#x27;:
+    return value.toString().replace(/[^0-9]/, &#x27;&#x27;) * 1;
+  case &#x27;alphanumeric&#x27;:
+    return value.replace(/[^a-z0-9]/i, &#x27;&#x27;);
+  case &#x27;alpha&#x27;:
+    return value.replace(/[^a-z]/i, &#x27;&#x27;);
+  default:
+    return value.replace(/[^0-9]/, &#x27;&#x27;);
+  }
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.twitter" id="apidoc.module.image-resizer.twitter">module image-resizer.twitter</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.twitter.twitter" id="apidoc.element.image-resizer.twitter.twitter">
+        function <span class="apidocSignatureSpan">image-resizer.</span>twitter
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Twitter(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Twitter)){
+    return new Twitter(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.twitter.super_" id="apidoc.element.image-resizer.twitter.super_">
+        function <span class="apidocSignatureSpan">image-resizer.twitter.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Readable(options) {
+  if (!(this instanceof Readable))
+    return new Readable(options);
+
+  this._readableState = new ReadableState(options, this);
+
+  // legacy
+  this.readable = true;
+
+  if (options &#x26;&#x26; typeof options.read === &#x27;function&#x27;)
+    this._read = options.read;
+
+  Stream.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.twitter.prototype" id="apidoc.module.image-resizer.twitter.prototype">module image-resizer.twitter.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.twitter.prototype._read" id="apidoc.element.image-resizer.twitter.prototype._read">
+        function <span class="apidocSignatureSpan">image-resizer.twitter.prototype.</span>_read
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_read = function (){
+  var _this = this,
+      profileId, queryString;
+
+  if ( this.ended ){ return; }
+
+  // pass through if there is an error on the image object
+  if (this.image.isError()){
+    this.ended = true;
+    this.push(this.image);
+    return this.push(null);
+  }
+
+  // pass through the stream with an error if the twit library didnt start
+  if (!t){
+    this.image.error = new Error(&#x27;Need valid twitter credentials&#x27;);
+    this.push(this.image);
+    return this.push(null);
+  }
+
+  var endStream = function(){
+    _this.ended = true;
+    _this.push(_this.image);
+    _this.push(null);
+  };
+
+  this.image.log.time(&#x27;twitter&#x27;);
+
+  profileId = this.image.image.split(&#x27;.&#x27;)[0];
+
+  if (_.isNaN(profileId * 1)){
+    queryString = {screen_name: profileId};
+  } else {
+    queryString = {user_id: profileId};
+  }
+
+  t.get(&#x27;users/show&#x27;, queryString, function(err, data){
+    if (err){
+      _this.image.error = new Error(err);
+      endStream();
+    }
+    else {
+<span class="apidocCodeCommentSpan">      /* jshint camelcase:false */
+</span>      var imageUrl = data.profile_image_url
+        .replace(&#x27;_normal&#x27;, &#x27;&#x27;)
+        .replace(&#x27;_bigger&#x27;, &#x27;&#x27;)
+        .replace(&#x27;_mini&#x27;, &#x27;&#x27;);
+
+      var opts = {
+        url: imageUrl,
+        encoding: null
+      };
+
+      request(opts, function (err, response, body) {
+        _this.image.log.timeEnd(&#x27;twitter&#x27;);
+
+        if (err) {
+          _this.image.error = err;
+        }
+        else {
+          if (response.statusCode === 200) {
+            _this.image.contents = body;
+            _this.image.originalContentLength = body.length;
+            _this.ended = true;
+          }
+          else {
+            _this.image.error = new Error(&#x27;Twitter user image not found&#x27;);
+            _this.image.error.statusCode = 404;
+          }
+        }
+
+        _this.push(_this.image);
+        _this.push(null);
+      });
+
+    }
+  });
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.vimeo" id="apidoc.module.image-resizer.vimeo">module image-resizer.vimeo</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.vimeo.vimeo" id="apidoc.element.image-resizer.vimeo.vimeo">
+        function <span class="apidocSignatureSpan">image-resizer.</span>vimeo
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Vimeo(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Vimeo)){
+    return new Vimeo(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.vimeo.super_" id="apidoc.element.image-resizer.vimeo.super_">
+        function <span class="apidocSignatureSpan">image-resizer.vimeo.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Readable(options) {
+  if (!(this instanceof Readable))
+    return new Readable(options);
+
+  this._readableState = new ReadableState(options, this);
+
+  // legacy
+  this.readable = true;
+
+  if (options &#x26;&#x26; typeof options.read === &#x27;function&#x27;)
+    this._read = options.read;
+
+  Stream.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.vimeo.prototype" id="apidoc.module.image-resizer.vimeo.prototype">module image-resizer.vimeo.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.vimeo.prototype._read" id="apidoc.element.image-resizer.vimeo.prototype._read">
+        function <span class="apidocSignatureSpan">image-resizer.vimeo.prototype.</span>_read
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_read = function (){
+  var _this = this,
+      url, videoId;
+
+  if ( this.ended ){ return; }
+
+  // pass through if there is an error on the image object
+  if (this.image.isError()){
+    this.ended = true;
+    this.push(this.image);
+    return this.push(null);
+  }
+
+  var endStream = function(){
+    _this.ended = true;
+    _this.push(_this.image);
+    _this.push(null);
+  };
+
+  this.image.log.time(&#x27;vimeo&#x27;);
+  videoId = this.image.image.split(&#x27;.&#x27;)[0];
+  url = &#x27;http://vimeo.com/api/v2/video/&#x27; + videoId + &#x27;.json&#x27;;
+
+  request(url, function(err, response, body){
+    if (err){
+      _this.image.error = new Error(err);
+      endStream();
+    }
+    else {
+      var json = JSON.parse(body);
+
+<span class="apidocCodeCommentSpan">      /* jshint camelcase:false */
+</span>      var imageUrl = json[0].thumbnail_large;
+      imageUrl = imageUrl.replace(&#x27;_640.jpg&#x27;, &#x27;&#x27;);
+
+      var opts = {
+        url: imageUrl,
+        encoding: null
+      };
+
+      request(opts, function (err, response, body) {
+        _this.image.log.timeEnd(&#x27;vimeo&#x27;);
+
+        if (err) {
+          _this.image.error = err;
+        }
+        else {
+          if (response.statusCode === 200) {
+            _this.image.contents = body;
+            _this.image.originalContentLength = body.length;
+            _this.ended = true;
+          }
+          else {
+            _this.image.error = new Error(&#x27;Vimeo image not found&#x27;);
+            _this.image.error.statusCode = 404;
+          }
+        }
+
+        _this.push(_this.image);
+        _this.push(null);
+      });
+
+    }
+  });
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.youtube" id="apidoc.module.image-resizer.youtube">module image-resizer.youtube</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.youtube.youtube" id="apidoc.element.image-resizer.youtube.youtube">
+        function <span class="apidocSignatureSpan">image-resizer.</span>youtube
+        <span class="apidocSignatureSpan">(image)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Youtube(image){
+<span class="apidocCodeCommentSpan">  /* jshint validthis:true */
+</span>  if (!(this instanceof Youtube)){
+    return new Youtube(image);
+  }
+  stream.Readable.call(this, { objectMode : true });
+  this.image = image;
+  this.ended = false;
+
+  // set the expiry value to the shorter value
+  this.image.expiry = env.IMAGE_EXPIRY_SHORT;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.youtube.super_" id="apidoc.element.image-resizer.youtube.super_">
+        function <span class="apidocSignatureSpan">image-resizer.youtube.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Readable(options) {
+  if (!(this instanceof Readable))
+    return new Readable(options);
+
+  this._readableState = new ReadableState(options, this);
+
+  // legacy
+  this.readable = true;
+
+  if (options &#x26;&#x26; typeof options.read === &#x27;function&#x27;)
+    this._read = options.read;
+
+  Stream.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.image-resizer.youtube.prototype" id="apidoc.module.image-resizer.youtube.prototype">module image-resizer.youtube.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.image-resizer.youtube.prototype._read" id="apidoc.element.image-resizer.youtube.prototype._read">
+        function <span class="apidocSignatureSpan">image-resizer.youtube.prototype.</span>_read
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_read = function (){
+  var _this = this,
+      url, videoId;
+
+  if ( this.ended ){ return; }
+
+  // pass through if there is an error on the image object
+  if (this.image.isError()){
+    this.ended = true;
+    this.push(this.image);
+    return this.push(null);
+  }
+
+  videoId = this.image.image.split(&#x27;.&#x27;)[0];
+  url = &#x27;http://img.youtube.com/vi/&#x27; + videoId + &#x27;/hqdefault.jpg&#x27;;
+
+  this.image.log.time(&#x27;youtube&#x27;);
+
+  var opts = {
+    url: url,
+    encoding: null
+  };
+
+  request(opts, function (err, response, body) {
+    _this.image.log.timeEnd(&#x27;youtube&#x27;);
+
+    if (err) {
+      _this.image.error = err;
+    }
+    else {
+      if (response.statusCode === 200) {
+        _this.image.contents = body;
+        _this.image.originalContentLength = body.length;
+        _this.ended = true;
+      }
+      else {
+        _this.image.error = new Error(&#x27;Youtube image not found&#x27;);
+        _this.image.error.statusCode = 404;
+      }
+    }
+
+    _this.push(_this.image);
+    _this.push(null);
+  });
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
