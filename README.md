@@ -1,6 +1,6 @@
 # npmdoc-image-resizer
 
-#### api documentation for  image-resizer (v1.3.0)  [![npm package](https://img.shields.io/npm/v/npmdoc-image-resizer.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-image-resizer) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-image-resizer.svg)](https://travis-ci.org/npmdoc/node-npmdoc-image-resizer)
+#### basic api documentation for  image-resizer (v1.3.0)  [![npm package](https://img.shields.io/npm/v/npmdoc-image-resizer.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-image-resizer) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-image-resizer.svg)](https://travis-ci.org/npmdoc/node-npmdoc-image-resizer)
 
 #### On-the-fly image resizing and optimization using node and sharp (libvips). Heroku ready!
 
