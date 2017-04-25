@@ -5,7 +5,7 @@
 /*
 assets.app.js
 
-#### api documentation for image-resizer (v1.3.0) [![npm package](https://img.shields.io/npm/v/npmdoc-image-resizer.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-image-resizer) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-image-resizer.svg)](https://travis-ci.org/npmdoc/node-npmdoc-image-resizer)
+#### basic api documentation for image-resizer (v1.3.0) [![npm package](https://img.shields.io/npm/v/npmdoc-image-resizer.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-image-resizer) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-image-resizer.svg)](https://travis-ci.org/npmdoc/node-npmdoc-image-resizer)
 
 instruction
     1. save this script as assets.app.js
@@ -79,7 +79,7 @@ instruction
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -117,7 +117,7 @@ instruction
 
 
 
-    // run shared js-env code - pre-function
+    // run shared js-env code - function-before
     /* istanbul ignore next */
     (function () {
         local.assert = function (passed, message) {
@@ -149,12 +149,11 @@ instruction
                 return require('path').resolve(process.cwd(), module || '');
             }
             // search modulePathList
-            [
-                ['node_modules'],
-                modulePathList,
-                require('module').globalPaths
-            ].some(function (modulePathList) {
-                modulePathList.some(function (modulePath) {
+            ['node_modules']
+                .concat(modulePathList)
+                .concat(require('module').globalPaths)
+                .concat([process.env.HOME + '/node_modules', '/usr/local/lib/node_modules'])
+                .some(function (modulePath) {
                     try {
                         tmp = require('path').resolve(process.cwd(), modulePath + '/' + module);
                         result = require('fs').statSync(tmp).isDirectory() && tmp;
@@ -162,8 +161,6 @@ instruction
                     } catch (ignore) {
                     }
                 });
-                return result;
-            });
             return result || '';
         };
 
@@ -340,7 +337,7 @@ instruction
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
 /* jslint-ignore-begin */
 local.templateApidocHtml = '\
 <div class="apidocDiv">\n\
@@ -525,9 +522,11 @@ local.templateApidocHtml = '\
              */
                 var result;
                 local.tryCatchOnError(function () {
+                    file = local.path.resolve(options.dir, file);
+                    console.error('\napidocCreate - readExample - ' + file);
                     result = '';
                     result = ('\n\n\n\n\n\n\n\n' +
-                        local.fs.readFileSync(local.path.resolve(options.dir, file), 'utf8') +
+                        local.fs.readFileSync(file, 'utf8') +
                         '\n\n\n\n\n\n\n\n').replace((/\r\n*/g), '\n');
                 }, console.error);
                 return result;
@@ -600,7 +599,7 @@ local.templateApidocHtml = '\
             local.objectSetDefault(options, {
                 blacklistDict: { global: global },
                 circularList: [global],
-                exampleFileList: [],
+                exampleDict: {},
                 exampleList: [],
                 html: '',
                 libFileList: [],
@@ -610,19 +609,39 @@ local.templateApidocHtml = '\
                 template: local.templateApidocHtml
             }, 2);
             // init exampleList
-            options.exampleList = options.exampleList.concat(options.exampleFileList.concat(
-                local.fs.readdirSync(options.dir)
-                    .sort()
-                    .filter(function (file) {
-                        return file.indexOf(options.env.npm_package_main) === 0 ||
-                            (/^(?:readme)\b/i).test(file) ||
-                            (/^(?:index|lib|test)\b.*\.js$/i).test(file);
-                    })
-            ).map(readExample))
-                .filter(function (element) {
-                    return element.trim();
-                })
-                .slice(0, 128);
+            [1, 2, 3, 4].forEach(function (depth) {
+                options.exampleList = options.exampleList.concat(
+                    // http://stackoverflow.com
+                    // /questions/4509624/how-to-limit-depth-for-recursive-file-list
+                    // find . -maxdepth 1 -mindepth 1 -name "*.js" -type f
+                    local.child_process.execSync('find "' + options.dir +
+                        '" -maxdepth ' + depth + ' -mindepth ' + depth +
+                        ' -type f | sed -e "s|' + options.dir +
+                        '/||" | grep -iv ' +
+/* jslint-ignore-begin */
+'"\
+/\\.\\|\\(\\b\\|_\\)\\(\
+bower_component\\|\
+coverage\\|\
+git\\|\
+min\\|\
+node_module\\|\
+rollup\\|\
+tmp\\|\
+vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
+" ' +
+/* jslint-ignore-end */
+                            ' | sort | head -n 4096').toString()
+                        .split('\n')
+                );
+            });
+            options.exampleList = options.exampleList.filter(function (file) {
+                if (options.exampleDict[file]) {
+                    return;
+                }
+                options.exampleDict[file] = true;
+                return true;
+            }).slice(0, 100).map(readExample);
             // init moduleMain
             local.tryCatchOnError(function () {
                 console.error('apidocCreate - requiring ' + options.dir + ' ...');
@@ -705,10 +724,12 @@ coverage\\|\
 doc\\|dist\\|\
 example\\|external\\|\
 fixture\\|\
+git\\|\
 log\\|\
 min\\|mock\\|\
 node_module\\|\
 rollup\\|\
+spec\\|\
 test\\|tmp\\|\
 vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 " ' +
@@ -717,7 +738,8 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
                         .split('\n')
                 );
             });
-            options.libFileList.some(function (file) {
+            options.ii = 0;
+            options.libFileList.every(function (file) {
                 local.tryCatchOnError(function () {
                     tmp = {};
                     tmp.name = local.path.basename(file)
@@ -741,12 +763,10 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
                         return;
                     }
                     module[tmp.name] = tmp.module;
-                    // update exampleList
-                    options.exampleList.push(readExample(file));
-                    console.error('apidocCreate - ' + options.exampleList.length +
-                        '. added libFile ' + file);
+                    options.ii += 1;
+                    console.error('apidocCreate - ' + options.ii + '. added libFile ' + file);
+                    return options.ii <= 100;
                 }, console.error);
-                return options.exampleList.length >= 256;
             });
             local.apidocModuleDictAdd(options, options.moduleExtraDict);
             Object.keys(options.moduleDict).forEach(function (key) {
@@ -855,7 +875,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     /* istanbul ignore next */
     case 'node':
         // require modules
@@ -932,7 +952,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -971,7 +991,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
     /* istanbul ignore next */
-    // run shared js-env code - pre-function
+    // run shared js-env code - function-before
     (function () {
         local.jsonCopy = function (arg) {
         /*
@@ -2503,7 +2523,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     case 'node':
         // require modules
         local.fs = require('fs');
@@ -2533,7 +2553,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -2572,7 +2592,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
     /* istanbul ignore next */
-    // run shared js-env code - pre-function
+    // run shared js-env code - function-before
     (function () {
         local.httpRequest = function (options, onError) {
         /*
@@ -3065,7 +3085,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
     /* istanbul ignore next */
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     case 'node':
         // require modules
         local.fs = require('fs');
@@ -3155,7 +3175,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // jslint-hack
         local.nop(__dirname);
@@ -3388,7 +3408,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
 
-    // run browser js-env code - pre-init
+    // run browser js-env code - init-before
     case 'browser':
         // require modules
         local.path = {
@@ -3403,7 +3423,7 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
 
 
 
-    // run node js-env code - pre-init
+    // run node js-env code - init-before
     case 'node':
         // require modules
         local._fs = local.require('fs');
@@ -5576,7 +5596,7 @@ local.templateCoverageBadgeSvg =
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     case 'node':
         /* istanbul ignore next */
         // run the cli
@@ -5657,7 +5677,7 @@ local.templateCoverageBadgeSvg =
         break;
     }
 }(
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         'use strict';
         var local;
@@ -5753,7 +5773,7 @@ local.templateCoverageBadgeSvg =
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -8233,7 +8253,7 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT, local.jslintEs6 = jslint; }());
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     /* istanbul ignore next */
     case 'node':
         // require modules
@@ -8278,7 +8298,7 @@ local.CSSLint = CSSLint; local.JSLINT = JSLINT, local.jslintEs6 = jslint; }());
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -8777,7 +8797,7 @@ sjcl.misc.scrypt.blockxor = function(S, Si, D, Di, len) {
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -9415,7 +9435,7 @@ split_lines=split_lines,exports.MAP=MAP,exports.ast_squeeze_more=require("./sque
 
 
     /* istanbul ignore next */
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     case 'node':
         // require modules
         local.fs = require('fs');
@@ -9480,7 +9500,7 @@ split_lines=split_lines,exports.MAP=MAP,exports.ast_squeeze_more=require("./sque
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -9518,7 +9538,7 @@ split_lines=split_lines,exports.MAP=MAP,exports.ast_squeeze_more=require("./sque
 
 
 
-    // run shared js-env code - pre-function
+    // run shared js-env code - function-before
     (function () {
         // init global.debug_inline
         local.global['debug_inline'.replace('_i', 'I')] = local.global[
@@ -9694,7 +9714,7 @@ instruction\n\
 \n\
 \n\
 \n\
-    // run shared js\-env code - pre-init\n\
+    // run shared js\-env code - init-before\n\
     (function () {\n\
         // init local\n\
         local = {};\n\
@@ -9727,8 +9747,8 @@ instruction\n\
 \n\
 \n\
 \n\
-    // post-init\n\
-    // run browser js\-env code - post-init\n\
+    // init-after\n\
+    // run browser js\-env code - init-after\n\
     /* istanbul ignore next */\n\
     case \'browser\':\n\
         local.testRunBrowser = function (event) {\n\
@@ -9816,7 +9836,7 @@ instruction\n\
 \n\
 \n\
 \n\
-    // run node js\-env code - post-init\n\
+    // run node js\-env code - init-after\n\
     /* istanbul ignore next */\n\
     case \'node\':\n\
         // export local\n\
@@ -9923,7 +9943,7 @@ local.assetsDict['/assets.lib.template.js'] = '\
 \n\
 \n\
 \n\
-    // run shared js\-env code - pre-init\n\
+    // run shared js\-env code - init-before\n\
     (function () {\n\
         // init local\n\
         local = {};\n\
@@ -10127,7 +10147,7 @@ local.assetsDict['/assets.readmeCustomOrg.npmdoc.template.md'] = '\
 # npmdoc-{{env.npm_package_name}} \
 \n\
 \n\
-#### api documentation for \
+#### basic api documentation for \
 {{#if env.npm_package_homepage}} \
 [{{env.npm_package_name}} (v{{env.npm_package_version}})]({{env.npm_package_homepage}}) \
 {{#unless env.npm_package_homepage}} \
@@ -10203,6 +10223,7 @@ local.assetsDict['/assets.readmeCustomOrg.npmtest.template.md'] = '\
 \n\
 | test-report : | [![test-report](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/test-report.badge.svg)](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/test-report.html)| \
 \n\
+| test-server-github : | [![github.com test-server](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/GitHub-Mark-32px.png)](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/build/app/index.html) | \
 | build-artifacts : | [![build-artifacts](https://npmtest.github.io/node-npmtest-{{env.npm_package_name}}/glyphicons_144_folder_open.png)](https://github.com/npmtest/node-npmtest-{{env.npm_package_name}}/tree/gh-pages/build)| \
 \n\
 \n\
@@ -10269,7 +10290,7 @@ local.assetsDict['/assets.test.template.js'] = '\
 \n\
 \n\
 \n\
-    // run shared js\-env code - pre-init\n\
+    // run shared js\-env code - init-before\n\
     (function () {\n\
         // init local\n\
         local = {};\n\
@@ -10332,7 +10353,7 @@ local.assetsDict['/assets.test.template.js'] = '\
 \n\
 \n\
 \n\
-    // run shared js\-env code - post-init\n\
+    // run shared js\-env code - init-after\n\
     (function () {\n\
         return;\n\
     }());\n\
@@ -10340,7 +10361,7 @@ local.assetsDict['/assets.test.template.js'] = '\
 \n\
 \n\
 \n\
-    // run browser js\-env code - post-init\n\
+    // run browser js\-env code - init-after\n\
     case \'browser\':\n\
         local.testCase_browser_nullCase = local.testCase_browser_nullCase || function (\n\
             options,\n\
@@ -10360,7 +10381,7 @@ local.assetsDict['/assets.test.template.js'] = '\
 \n\
 \n\
 \n\
-    // run node js\-env code - post-init\n\
+    // run node js\-env code - init-after\n\
     /* istanbul ignore next */\n\
     case \'node\':\n\
         local.testCase_buildApidoc_default = local.testCase_buildApidoc_default || function (\n\
@@ -12192,10 +12213,11 @@ return Utf8ArrayToStr(bff);
             options.packageJson = JSON.parse(local.fs.readFileSync('package.json', 'utf8'));
             switch (local.env.GITHUB_ORG) {
             case 'npmdoc':
-                // update package.json
-                local.objectSetOverride(options.packageJson, local.objectLiteralize({
-                    keywords: ['documentation', local.env.npm_package_buildCustomOrg]
-                }), 2);
+                local.objectSetOverride(options, {
+                    packageJson: {
+                        keywords: ['documentation', local.env.npm_package_buildCustomOrg]
+                    }
+                }, 2);
                 // build apidoc.html
                 onParallel.counter += 1;
                 local.buildApidoc({
@@ -12205,10 +12227,11 @@ return Utf8ArrayToStr(bff);
                 }, onParallel);
                 break;
             case 'npmtest':
-                // update package.json
-                local.objectSetOverride(options.packageJson, local.objectLiteralize({
-                    keywords: ['coverage', 'test', local.env.npm_package_buildCustomOrg]
-                }), 2);
+                local.objectSetOverride(options, {
+                    packageJson: {
+                        keywords: ['coverage', 'test', local.env.npm_package_buildCustomOrg]
+                    }
+                }, 2);
                 break;
             }
             // build README.md
@@ -12331,7 +12354,7 @@ return Utf8ArrayToStr(bff);
                 (/\n```javascript\n\/\*\nexample\.js\n\n[^`]*?\n/),
                 (/\n {8}\$ npm install [^`]*? &&/),
                 (/\n {12}: global;\n[^`]*?\n {8}local\.global\.local = local;\n/),
-                (/\n {8}local\.global\.local = local;\n[^`]*?\n {4}\/\/ post-init\n/),
+                (/\n {8}local\.global\.local = local;\n[^`]*?\n {4}\/\/ init-after\n/),
                 new RegExp('\\n {8}local\\.testRunBrowser = function \\(event\\) \\{\\n' +
                     '[^`]*?^ {12}if \\(!event \\|\\| \\(event &&\\n', 'm'),
                 (/\n {12}\/\/ custom-case\n[^`]*?\n {12}\}\n/),
@@ -12382,15 +12405,15 @@ return Utf8ArrayToStr(bff);
             // search-and-replace - customize dataTo
             [
                 // customize js\-env code
-                new RegExp('\\n {4}\\/\\/ run shared js\\-env code - pre-init\\n[\\S\\s]*?' +
+                new RegExp('\\n {4}\\/\\/ run shared js\\-env code - init-before\\n[\\S\\s]*?' +
                     '^ {4}\\(function \\(\\) \\{\\n', 'm'),
                 (/\n {8}local.global.local = local;\n[\S\s]*?^ {4}\}\(\)\);\n/m),
                 (/\n {4}\/\/ run shared js\-env code - function\n[\S\s]*?\n {4}\}\(\)\);\n/),
                 (/\n {4}\/\/ run browser js\-env code - function\n[\S\s]*?\n {8}break;\n/),
                 (/\n {4}\/\/ run node js\-env code - function\n[\S\s]*?\n {8}break;\n/),
-                new RegExp('\\n {4}\\/\\/ run browser js\\-env code - post-init\\n[\\S\\s]*?' +
+                new RegExp('\\n {4}\\/\\/ run browser js\\-env code - init-after\\n[\\S\\s]*?' +
                     '^ {4}case \'browser\':\n', 'm'),
-                (/\n {4}\/\/ run shared js\-env code - post-init\n[\S\s]*?\n {4}\}\(\)\);\n/)
+                (/\n {4}\/\/ run shared js\-env code - init-after\n[\S\s]*?\n {4}\}\(\)\);\n/)
             ].forEach(function (rgx) {
                 // handle large string-replace
                 options.dataFrom.replace(rgx, function (match0) {
@@ -13360,12 +13383,11 @@ return Utf8ArrayToStr(bff);
                 return require('path').resolve(process.cwd(), module || '');
             }
             // search modulePathList
-            [
-                ['node_modules'],
-                modulePathList,
-                require('module').globalPaths
-            ].some(function (modulePathList) {
-                modulePathList.some(function (modulePath) {
+            ['node_modules']
+                .concat(modulePathList)
+                .concat(require('module').globalPaths)
+                .concat([process.env.HOME + '/node_modules', '/usr/local/lib/node_modules'])
+                .some(function (modulePath) {
                     try {
                         tmp = require('path').resolve(process.cwd(), modulePath + '/' + module);
                         result = require('fs').statSync(tmp).isDirectory() && tmp;
@@ -13373,8 +13395,6 @@ return Utf8ArrayToStr(bff);
                     } catch (ignore) {
                     }
                 });
-                return result;
-            });
             return result || '';
         };
 
@@ -13965,6 +13985,53 @@ vendor\\)s\\{0,1\\}\\(\\b\\|_\\)\
             }()));
         };
 
+        local.requireInSandbox = function (file) {
+        /*
+         * this function will require the file in a sandbox-lite env
+         */
+            var exports, mockDict, mockList, tmp;
+            mockList = [
+                [ local.global, {
+                    setImmediate: local.nop,
+                    setInterval: local.nop,
+                    setTimeout: local.nop
+                }]
+            ];
+            [
+                [local, 'child_process'],
+                [local, 'cluster'],
+                [local, 'fs'],
+                [local, 'http'],
+                [local, 'https'],
+                [local, 'net'],
+                [local, 'repl'],
+                [local.global, 'process'],
+                [process, 'stdin']
+            ].forEach(function (element) {
+                tmp = element[0][element[1]];
+                mockDict = {};
+                Object.keys(tmp).forEach(function (key) {
+                    if (typeof tmp[key] === 'function' && !(
+                            /^(?:fs\.Read|fs\.read|process\.binding|process\.dlopen)/
+                        ).test(element[1] + '.' + key)) {
+                        mockDict[key] = function () {
+                            return;
+                        };
+                        // coverage-hack
+                        mockDict[key]();
+                    }
+                });
+                mockList.push([ module, mockDict ]);
+            });
+            local.testMock(mockList, function (onError) {
+                local.tryCatchOnError(function () {
+                    exports = require(file);
+                }, console.error);
+                onError();
+            }, local.onErrorThrow);
+            return exports;
+        };
+
         local.requireReadme = function () {
         /*
          * this function will require and export example.js embedded in README.md
@@ -14177,53 +14244,6 @@ instruction\n\
                 local.jslintAndPrintConditional(local.assetsDict[key], key);
             });
             return module.exports;
-        };
-
-        local.requireInSandbox = function (file) {
-        /*
-         * this function will require the file in a sandbox-lite env
-         */
-            var exports, mockDict, mockList, tmp;
-            mockList = [
-                [ local.global, {
-                    setImmediate: local.nop,
-                    setInterval: local.nop,
-                    setTimeout: local.nop
-                }]
-            ];
-            [
-                [local, 'child_process'],
-                [local, 'cluster'],
-                [local, 'fs'],
-                [local, 'http'],
-                [local, 'https'],
-                [local, 'net'],
-                [local, 'repl'],
-                [local.global, 'process'],
-                [process, 'stdin']
-            ].forEach(function (element) {
-                tmp = element[0][element[1]];
-                mockDict = {};
-                Object.keys(tmp).forEach(function (key) {
-                    if (typeof tmp[key] === 'function' && !(
-                            /^(?:fs\.Read|fs\.read|process\.binding|process\.dlopen)/
-                        ).test(element[1] + '.' + key)) {
-                        mockDict[key] = function () {
-                            return;
-                        };
-                        // coverage-hack
-                        mockDict[key]();
-                    }
-                });
-                mockList.push([ module, mockDict ]);
-            });
-            local.testMock(mockList, function (onError) {
-                local.tryCatchOnError(function () {
-                    exports = require(file);
-                }, console.error);
-                onError();
-            }, local.onErrorThrow);
-            return exports;
         };
 
         local.serverRespondDefault = function (request, response, statusCode, error) {
@@ -15368,7 +15388,7 @@ instruction\n\
 
 
 
-    // run shared js-env code - post-init
+    // run shared js-env code - init-after
     (function () {
         local.ajaxProgressCounter = 0;
         local.ajaxProgressState = 0;
@@ -15497,7 +15517,7 @@ instruction\n\
 
 
 
-    // run browser js-env code - post-init
+    // run browser js-env code - init-after
     case 'browser':
         // require modules
         local.http = local._http;
@@ -15506,7 +15526,7 @@ instruction\n\
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     /* istanbul ignore next */
     case 'node':
         // require modules
@@ -15677,7 +15697,65 @@ instruction\n\
                 });
             }, local.exit);
             return;
-        case 'dbTableCustomOrgCrudGetManyByQuery':
+        case 'cli.customOrgStarFilterNotBuilt':
+            (function () {
+                var options;
+                options = {};
+                options.dict = {};
+                options.list = [];
+                for (options.ii = Number(process.argv[3]);
+                        options.ii < Number(process.argv[4]);
+                        options.ii += 36) {
+                    options.list.push(options.ii);
+                }
+                local.listShuffle(options.list);
+                local.onParallelList(options, function (options2, onParallel) {
+                    onParallel.counter += 1;
+                    local.ajax({
+                        url: 'https://www.npmjs.com/browse/star?offset=' + options2.element
+                    }, function (error, xhr) {
+                        // jslint-hack
+                        local.nop(error);
+                        console.error('cli.customOrgStarFilterNotBuilt - fetched ' + xhr.url);
+                        (xhr.responseText || '').toLowerCase().replace((
+                            /href=\"\/package\/(.+?)\"/g
+                        ), function (match0, match1) {
+                            match0 = local.env.GITHUB_ORG + '/node-' + local.env.GITHUB_ORG +
+                                '-' + match1;
+                            if (options.dict[match0]) {
+                                return;
+                            }
+                            onParallel.counter += 1;
+                            local.onParallelList({ list: [{
+                                url: 'https://raw.githubusercontent.com/' + match0 +
+                                    '/gh-pages/build..alpha..travis-ci.org' +
+                                    '/screenCapture.npmPackageListing.svg'
+                            }, {
+                                url: 'https://registry.npmjs.org/' + local.env.GITHUB_ORG +
+                                    '-' + match1
+                            }] }, function (options2, onParallel) {
+                                onParallel.counter += 1;
+                                local.ajax(options2.element, function (error) {
+                                    if (error && !options.dict[match0]) {
+                                        options.dict[match0] = true;
+                                        console.error(
+                                            'cli.customOrgStarFilterNotBuilt - not built - ' +
+                                                match0
+                                        );
+                                        console.log(match0);
+                                    }
+                                    onParallel();
+                                });
+                            }, function () {
+                                onParallel();
+                            });
+                        });
+                        onParallel();
+                    });
+                }, local.onErrorThrow);
+            }());
+            return;
+        case 'cli.dbTableCustomOrgCrudGetManyByQuery':
             local.dbTableCustomOrgCreate(JSON.parse(process.argv[3] || '{}'), function (error) {
                 // validate no error occurred
                 local.assert(!error, error);
@@ -15690,7 +15768,7 @@ instruction\n\
                     .join('\n'));
             });
             return;
-        case 'dbTableCustomOrgUpdate':
+        case 'cli.dbTableCustomOrgUpdate':
             local.dbTableCustomOrgUpdate(
                 JSON.parse(process.argv[3] || '{}'),
                 local.onErrorThrow
@@ -15716,7 +15794,7 @@ instruction\n\
                 });
             }, local.exit);
             return;
-        case 'testReportCreate':
+        case 'cli.testReportCreate':
             local.exit(local.testReportCreate(local.tryCatchOnError(function () {
                 return require(local.env.npm_config_dir_build + '/test-report.json');
             }, local.onErrorDefault)).testsFailed);
@@ -15763,7 +15841,7 @@ instruction\n\
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -18358,7 +18436,7 @@ local.templateUiResponseAjax = '\
                             )
                         ) || element.value;
                     });
-                    // pre-init crud.idField
+                    // init-before crud.idField
                     crud.modeQueryByIdInvert = true;
                     local.idFieldInit(crud);
                     // init crud.data.id
@@ -18371,7 +18449,7 @@ local.templateUiResponseAjax = '\
                         crud.data[crud.idField] = (crud.body && crud.body[crud.idAlias]);
                         break;
                     }
-                    // post-init crud.idField
+                    // init-after crud.idField
                     crud.modeQueryByIdInvert = true;
                     local.idFieldInit(crud);
                     nextMiddleware();
@@ -19896,7 +19974,7 @@ local.templateUiResponseAjax = '\
 
 
 
-    // run browser js-env code - post-init
+    // run browser js-env code - init-after
     case 'browser':
         // init state
         local.utility2._stateInit({});
@@ -19904,7 +19982,7 @@ local.templateUiResponseAjax = '\
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     case 'node':
         // init assets.lib.rollup.js
         local.assetsDict['/assets.swgg.rollup.js'] =
@@ -20024,7 +20102,7 @@ local.templateUiResponseAjax = '\
         global.utility2_rollup;
     local.local = local;
 /* jslint-ignore-begin */
-local._stateInit({"utility2":{"assetsDict":{"/assets.index.template.html":"<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>{{env.npm_package_name}} (v{{env.npm_package_version}})</title>\n<style>\n/*csslint\n    box-sizing: false,\n    universal-selector: false\n*/\n* {\n    box-sizing: border-box;\n}\nbody {\n    background: #dde;\n    font-family: Arial, Helvetica, sans-serif;\n    margin: 2rem;\n}\nbody > * {\n    margin-bottom: 1rem;\n}\n.utility2FooterDiv {\n    margin-top: 20px;\n    text-align: center;\n}\n</style>\n<style>\n/*csslint\n*/\ntextarea {\n    font-family: monospace;\n    height: 10rem;\n    width: 100%;\n}\ntextarea[readonly] {\n    background: #ddd;\n}\n</style>\n</head>\n<body>\n<!-- utility2-comment\n<div id=\"ajaxProgressDiv1\" style=\"background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 0.5s, width 1.5s; width: 25%;\"></div>\nutility2-comment -->\n<h1>\n<!-- utility2-comment\n    <a\n        {{#if env.npm_package_homepage}}\n        href=\"{{env.npm_package_homepage}}\"\n        {{/if env.npm_package_homepage}}\n        target=\"_blank\"\n    >\nutility2-comment -->\n        {{env.npm_package_name}} (v{{env.npm_package_version}})\n<!-- utility2-comment\n    </a>\nutility2-comment -->\n</h1>\n<h3>{{env.npm_package_description}}</h3>\n<!-- utility2-comment\n<h4><a download href=\"assets.app.js\">download standalone app</a></h4>\n<button class=\"onclick onreset\" id=\"testRunButton1\">run internal test</button><br>\n<div id=\"testReportDiv1\" style=\"display: none;\"></div>\nutility2-comment -->\n\n\n\n<label>stderr and stdout</label>\n<textarea class=\"resettable\" id=\"outputTextareaStdout1\" readonly></textarea>\n<!-- utility2-comment\n{{#if isRollup}}\n<script src=\"assets.app.js\"></script>\n{{#unless isRollup}}\nutility2-comment -->\n<script src=\"assets.utility2.rollup.js\"></script>\n<script src=\"jsonp.utility2._stateInit?callback=window.utility2._stateInit\"></script>\n<script src=\"assets.npmdoc_image_resizer.rollup.js\"></script>\n<script src=\"assets.example.js\"></script>\n<script src=\"assets.test.js\"></script>\n<!-- utility2-comment\n{{/if isRollup}}\nutility2-comment -->\n<div class=\"utility2FooterDiv\">\n    [ this app was created with\n    <a href=\"https://github.com/kaizhu256/node-utility2\" target=\"_blank\">utility2</a>\n    ]\n</div>\n</body>\n</html>\n"},"env":{"NODE_ENV":"test","npm_package_description":"#### api documentation for image-resizer (v1.3.0) [![npm package](https://img.shields.io/npm/v/npmdoc-image-resizer.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-image-resizer) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-image-resizer.svg)](https://travis-ci.org/npmdoc/node-npmdoc-image-resizer)","npm_package_homepage":"https://github.com/npmdoc/node-npmdoc-image-resizer","npm_package_name":"npmdoc-image-resizer","npm_package_nameAlias":"npmdoc_image_resizer","npm_package_version":"0.0.1"}}});
+local._stateInit({"utility2":{"assetsDict":{"/assets.index.template.html":"<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>{{env.npm_package_name}} (v{{env.npm_package_version}})</title>\n<style>\n/*csslint\n    box-sizing: false,\n    universal-selector: false\n*/\n* {\n    box-sizing: border-box;\n}\nbody {\n    background: #dde;\n    font-family: Arial, Helvetica, sans-serif;\n    margin: 2rem;\n}\nbody > * {\n    margin-bottom: 1rem;\n}\n.utility2FooterDiv {\n    margin-top: 20px;\n    text-align: center;\n}\n</style>\n<style>\n/*csslint\n*/\ntextarea {\n    font-family: monospace;\n    height: 10rem;\n    width: 100%;\n}\ntextarea[readonly] {\n    background: #ddd;\n}\n</style>\n</head>\n<body>\n<!-- utility2-comment\n<div id=\"ajaxProgressDiv1\" style=\"background: #d00; height: 2px; left: 0; margin: 0; padding: 0; position: fixed; top: 0; transition: background 0.5s, width 1.5s; width: 25%;\"></div>\nutility2-comment -->\n<h1>\n<!-- utility2-comment\n    <a\n        {{#if env.npm_package_homepage}}\n        href=\"{{env.npm_package_homepage}}\"\n        {{/if env.npm_package_homepage}}\n        target=\"_blank\"\n    >\nutility2-comment -->\n        {{env.npm_package_name}} (v{{env.npm_package_version}})\n<!-- utility2-comment\n    </a>\nutility2-comment -->\n</h1>\n<h3>{{env.npm_package_description}}</h3>\n<!-- utility2-comment\n<h4><a download href=\"assets.app.js\">download standalone app</a></h4>\n<button class=\"onclick onreset\" id=\"testRunButton1\">run internal test</button><br>\n<div id=\"testReportDiv1\" style=\"display: none;\"></div>\nutility2-comment -->\n\n\n\n<label>stderr and stdout</label>\n<textarea class=\"resettable\" id=\"outputTextareaStdout1\" readonly></textarea>\n<!-- utility2-comment\n{{#if isRollup}}\n<script src=\"assets.app.js\"></script>\n{{#unless isRollup}}\nutility2-comment -->\n<script src=\"assets.utility2.rollup.js\"></script>\n<script src=\"jsonp.utility2._stateInit?callback=window.utility2._stateInit\"></script>\n<script src=\"assets.npmdoc_image_resizer.rollup.js\"></script>\n<script src=\"assets.example.js\"></script>\n<script src=\"assets.test.js\"></script>\n<!-- utility2-comment\n{{/if isRollup}}\nutility2-comment -->\n<div class=\"utility2FooterDiv\">\n    [ this app was created with\n    <a href=\"https://github.com/kaizhu256/node-utility2\" target=\"_blank\">utility2</a>\n    ]\n</div>\n</body>\n</html>\n"},"env":{"NODE_ENV":"test","npm_package_description":"#### basic api documentation for image-resizer (v1.3.0) [![npm package](https://img.shields.io/npm/v/npmdoc-image-resizer.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-image-resizer) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-image-resizer.svg)](https://travis-ci.org/npmdoc/node-npmdoc-image-resizer)","npm_package_homepage":"https://github.com/npmdoc/node-npmdoc-image-resizer","npm_package_name":"npmdoc-image-resizer","npm_package_nameAlias":"npmdoc_image_resizer","npm_package_version":"2017.4.23"}}});
 /* jslint-ignore-end */
 }());
 /* script-end local._stateInit */
@@ -20049,7 +20127,7 @@ local._stateInit({"utility2":{"assetsDict":{"/assets.index.template.html":"<!doc
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -20121,7 +20199,7 @@ instruction
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -20154,8 +20232,8 @@ instruction
 
 
 
-    // post-init
-    // run browser js-env code - post-init
+    // init-after
+    // run browser js-env code - init-after
     /* istanbul ignore next */
     case 'browser':
         local.testRunBrowser = function (event) {
@@ -20243,7 +20321,7 @@ instruction
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     /* istanbul ignore next */
     case 'node':
         // export local
@@ -20438,7 +20516,7 @@ utility2-comment -->\n\
 
 
 
-    // run shared js-env code - pre-init
+    // run shared js-env code - init-before
     (function () {
         // init local
         local = {};
@@ -20501,7 +20579,7 @@ utility2-comment -->\n\
 
 
 
-    // run shared js-env code - post-init
+    // run shared js-env code - init-after
     (function () {
         return;
     }());
@@ -20509,7 +20587,7 @@ utility2-comment -->\n\
 
 
 
-    // run browser js-env code - post-init
+    // run browser js-env code - init-after
     case 'browser':
         local.testCase_browser_nullCase = local.testCase_browser_nullCase || function (
             options,
@@ -20529,7 +20607,7 @@ utility2-comment -->\n\
 
 
 
-    // run node js-env code - post-init
+    // run node js-env code - init-after
     /* istanbul ignore next */
     case 'node':
         local.testCase_buildApidoc_default = local.testCase_buildApidoc_default || function (
